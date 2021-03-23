@@ -41,3 +41,38 @@ class DB_Manager:
             c.execute(create_table_sql)
         except Error as e:
             print(e)
+
+    def create_project(self, project):
+        """ create new project into the project table 
+        :param conn:
+        :param project:
+        :return: project id
+        """
+
+        sql = ''' INSERT INTO projects(name, begin_date, end_date)
+                    VALUES(?,?,?) '''
+        
+        cur = self.conn.cursor()
+
+        cur.execute(sql, project)
+        self.conn.commit()
+
+        return cur.lastrowid
+
+    def create_task(self, task):
+        """ create new task
+        :param conn:
+        :param task:
+        :return:
+        """
+
+        slq = ''' INSERT INTO tasks(name, priority, status_id, project_id, begin_date, end_date)
+                    VALUES(?,?,?,?,?,?)'''
+
+        cur = self.conn.cursor()
+        
+        cur.execute(slq, task)
+        self.conn.commit()
+
+        return cur.lastrowid
+
